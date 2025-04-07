@@ -5,9 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @vite('resources/css/app.css')
 
-        <!-- Alpine Plugins -->
-        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-        
         <link rel="icon" href="{{ asset('favlogo.ico')}}" type="image/x-icon">
 
         <title>{{ $title ?? config('app.name') }}</title>

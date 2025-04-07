@@ -44,9 +44,6 @@
                                 <th scope="col" class="px-4 py-3">Nomor Surat Jalan (Pulang)</th>
                                 <th scope="col" class="px-4 py-3">Klien</th>
                                 <th scope="col" class="px-4 py-3">Status</th>
-                                <th scope="col" class="px-4 py-3">
-                                    <span class="sr-only">Actions</span>
-                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -57,21 +54,62 @@
                                         ? 'bg-orange-100 text-orange-600' 
                                         : 'bg-green-100 text-green-600';
                                 @endphp
-                                <tr class="hover:bg-gray-50 text-center text-xs text-black">
+                                <tr wire:click="viewShipment({{ $shipment->id }})" wire:key="{{ $shipment->id }}" class="hover:bg-gray-100 text-center text-xs text-black cursor-pointer">
                                     <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->truck->plate_number }}</td>
-                                    <td class="px-4 py-3">Rp{{ number_format($shipment->delivery_order_price, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->formatted_date }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->load_type }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->departure_waybill_number }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->return_waybill_number }}</td>
-                                    <td class="px-4 py-3">{{ $shipment->client }}</td>
+                                    <td class="px-4 py-3">
+                                        {{ $shipment->truck->plate_number }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        @if (!is_null($shipment->delivery_order_price))
+                                            Rp{{ number_format($shipment->delivery_order_price, 0, ',', '.') }}
+                                        @else
+                                            <span class="text-gray-400 italic">Lengkapi kolom</span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        {{ $shipment->formatted_date }}
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        @if (!empty($shipment->load_type))
+                                            {{ $shipment->load_type }}
+                                        @else
+                                            <span class="text-gray-400 italic">Lengkapi kolom</span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        @if (!empty($shipment->departure_waybill_number))
+                                            {{ $shipment->departure_waybill_number }}
+                                        @else
+                                            <span class="text-gray-400 italic">Lengkapi kolom</span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        @if (!empty($shipment->return_waybill_number))
+                                            {{ $shipment->return_waybill_number }}
+                                        @else
+                                            <span class="text-gray-400 italic">Lengkapi kolom</span>
+                                        @endif
+                                    </td>
+                                    
+                                    <td class="px-4 py-3">
+                                        @if (!empty($shipment->client))
+                                            {{ $shipment->client }}
+                                        @else
+                                            <span class="text-gray-400 italic">Lengkapi kolom</span>
+                                        @endif
+                                    </td>
+                                    
                                     <td class="px-4 py-3">
                                         <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusClass }}">
                                             {{ ucfirst($status) }}
                                         </span>
                                     </td>
-                                </tr>
+                                </tr>                                
                             @endforeach
                         </tbody>
                     </table>
@@ -97,4 +135,10 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="Detail Pengiriman" name="edit-view-shipment">
+        @if ($selectedShipment)
+            <livewire:shipments.update-form :shipment="$selectedShipment" :key="$selectedShipment->id"/>
+        @endif
+    </x-modal>
 </div>

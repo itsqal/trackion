@@ -4,13 +4,13 @@
     x-bind:class="sidebarOpen ? 'ml-[16.6%]' : 'ml-0'"
     x-bind:style="sidebarOpen ? 'width: calc(100% - 16.6%)' : 'width: 100%'">
      
-     <x-page-menu>
-        <div>
-            <span class="text-2xl text-white font-sans font-semibold">Data Pengiriman</span>
-        </div>
+    <x-page-menu>
+    <div>
+        <span class="text-2xl text-white font-sans font-semibold">Data Pengiriman</span>
+    </div>
 
-        <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
-     </x-page-menu>
-
-     <livewire:shipments.table lazy />
+    <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+    </x-page-menu>
+    
+    <livewire:shipments.table lazy />
  </div>
