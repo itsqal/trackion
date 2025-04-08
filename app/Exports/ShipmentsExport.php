@@ -46,6 +46,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
             $shipment->load_type,
             $shipment->departure_waybill_number,
             $shipment->return_waybill_number,
+            $shipment->departure_location,
             $shipment->final_location,
             $shipment->distance_traveled,
             ucfirst($shipment->status)
@@ -56,7 +57,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             'Nomor Plat', 'Harga Pengiriman', 'Klien', 'Muatan', 'Nomor Surat Jalan (Pergi)', 'Nomor Surat Jalan (Pulang)', 
-            'Lokasi Akhir', 'Jarak Tempuh', 'Status'
+            'Lokasi Keberangkatan', 'Lokasi Tujuan', 'Jarak Tempuh', 'Status'
         ];
     }
 }

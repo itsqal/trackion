@@ -12,6 +12,13 @@ class Shipment extends Model
     use HasFactory;
 
     protected $appends = ['formatted_date'];
+    protected $fillable = [
+        'departure_waybill_number',
+        'return_waybill_number',
+        'client',
+        'load_type',
+        'delivery_order_price'
+    ];
 
     public function truck()
     {

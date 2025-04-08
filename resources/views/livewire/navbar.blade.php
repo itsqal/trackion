@@ -5,7 +5,7 @@
         x-on:toggle.window = "open = !open"
         @click="$dispatch('toggle')"
         class="transition-all duration-300 bg-[var(--color-primary)] text-white py-2 px-3 rounded-xl shadow-md hover:bg-[var(--color-hover)]"
-        x-bind:class="'opacity-0 invisible' : 'opacity-100 visible'"
+        x-bind:class="open ? 'opacity-0 invisible' : 'opacity-100 visible'"
     >
         ☰
     </button>

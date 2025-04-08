@@ -13,6 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class Table extends Component
 {
     use WithPagination;
+    protected $listeners = ['shipmentUpdated' => '$refresh'];
+    public $selectedShipment;
 
     // Search filter
     #[Url(history:true)]
@@ -29,6 +31,13 @@ class Table extends Component
 
     // number of items per page
     public int $itemsPerPage=10;
+
+    public function viewShipment($id)
+    {
+        $this->selectedShipment = Shipment::with('truck')->findOrFail($id);
+
+        $this->dispatch('open-modal', name: 'edit-view-shipment');
+    }
 
     public function updatedSearch()
     {
