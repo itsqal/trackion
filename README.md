@@ -51,7 +51,6 @@ Your application should now be running locally
 This system is built around the following core models:
 - **Truck**
 - **Driver**
-- **VehicleCheck**
 - **Shipment**
 - **Report**
 
