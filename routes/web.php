@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\LocationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\TrackingController;
 
 Route::get('/', function () {
     return Auth::check() ? redirect()->route('shipments.index') : redirect()->route('login');
@@ -17,8 +19,12 @@ Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
+// Tracking
+Route::get('/track/{truck}', [TrackingController::class, 'show'])->name('tracking.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
+
 
     Route::get('/trucks', App\Livewire\Trucks\Index::class)->name('trucks.index');
     
