@@ -13,6 +13,10 @@ class Shipment extends Model
 
     protected $appends = ['formatted_date'];
     protected $fillable = [
+        'truck_id',
+        'departure_location',
+        'departure_latitude',
+        'departure_longitude',
         'departure_waybill_number',
         'return_waybill_number',
         'client',

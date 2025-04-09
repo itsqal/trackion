@@ -16,16 +16,16 @@ return new class extends Migration
             $table->id();
             $table->foreignUuid('truck_id');
             $table->integer('delivery_order_price')->nullable();
-            $table->string('client');
-            $table->string('load_type');
-            $table->string('departure_waybill_number');
-            $table->string('return_waybill_number');
+            $table->string('client')->nullable();
+            $table->string('load_type')->nullable();
+            $table->string('departure_waybill_number')->nullable();
+            $table->string('return_waybill_number')->nullable();
             $table->decimal('departure_latitude', 10, 8);
             $table->decimal('departure_longitude', 11, 8);
-            $table->string('departure_location')->nullable();
+            $table->string('departure_location');
             $table->string('final_location')->nullable();
             $table->float('distance_traveled')->nullable();
-            $table->enum('status', ['perjalanan', 'selesai']);
+            $table->enum('status', ['perjalanan', 'selesai'])->default('perjalanan');
             $table->timestamps();
         });
     }
