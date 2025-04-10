@@ -1,4 +1,4 @@
-@props(['title', 'name'])
+@props(['title', 'name', 'icon', 'centerTitle' => false])
 
 <div 
     x-data = "{ show: false, name: '{{ $name }}' }"
@@ -21,21 +21,35 @@
         x-transition
         class="relative bg-white rounded-2xl shadow-lg w-full max-w-lg mx-4 p-6 z-10"
     >
-        {{-- Modal Header --}}
-        <header class="flex items-center justify-between mb-4">
+    @php
+        $headerBaseClass = 'flex items-center mb-4 relative';
+        $headerAlignmentClass = $centerTitle ? '' : 'justify-between';
+    @endphp
+
+    <header class="{{ $headerBaseClass }} {{ $headerAlignmentClass }}">
+        {{-- Title + Icon --}}
+        <div class="flex gap-3 items-center mx-auto" @if (!$centerTitle) style="margin-left: 0;" @endif>
+            @isset($icon)
+                {!! $icon !!}
+            @endisset
+
             @if (isset($title))
                 <h2 class="text-lg font-semibold text-gray-800">
                     {{ $title }}
                 </h2>
             @endif
-            <button 
-                x-on:click="show = false" 
-                class="text-gray-500 hover:text-red-500 transition hover:bg-gray-200 rounded px-2"
-                aria-label="Close"
-            >
-                &times;
-            </button>
-        </header>
+        </div>
+
+        {{-- Close Button tetap di kanan atas --}}
+        <button 
+            x-on:click="show = false" 
+            class="absolute right-0 text-gray-500 hover:text-red-500 transition hover:bg-gray-200 rounded px-2"
+            aria-label="Close"
+        >
+            &times;
+        </button>
+    </header>
+
 
         {{-- Modal Body --}}
         <main class="text-gray-700">

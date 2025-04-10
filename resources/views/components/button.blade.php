@@ -10,6 +10,6 @@
     }
 @endphp
 
-<button {{ $attributes->merge(['class' => 'flex items-center gap-2 px-4 py-2 rounded-md text-sm font-sans font-medium transition ' . $colorStyle]) }}>
+<button {{ $attributes->merge(['class' => 'flex items-center gap-2 px-4 py-2 rounded-md text-sm font-sans font-medium transition cursor-pointer ' . $colorStyle]) }}>
     {{ $slot }}
 </button>

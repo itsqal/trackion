@@ -18,4 +18,9 @@ class Index extends Component
     {
         return view('livewire.drivers.index');
     }
+
+    public function viewAddDriver()
+    {
+        $this->dispatch('open-modal', name: 'view-add-driver');
+    }
 }

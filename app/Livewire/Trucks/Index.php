@@ -13,6 +13,12 @@ class Index extends Component
     {
         return $this->dispatch('exportTruck')->to(Table::class);
     }
+
+    public function viewAddTruck()
+    {
+        $this->dispatch('open-modal', name: 'view-add-truck');
+    }
+
     
     public function render()
     {

@@ -25,7 +25,6 @@ Route::get('/track/{truck}', [TrackingController::class, 'show'])->name('trackin
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
 
-
     Route::get('/trucks', App\Livewire\Trucks\Index::class)->name('trucks.index');
     
     Route::get('/drivers', App\Livewire\Drivers\Index::class)->name('drivers.index');
