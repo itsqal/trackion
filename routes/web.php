@@ -20,6 +20,7 @@ Route::post('/logout', [SessionController::class, 'destroy']);
 
 // Tracking
 Route::get('/track/{truck}', [TrackingController::class, 'show'])->name('tracking.show');
+Route::get('/track/{truck}/on-going', [TrackingController::class, 'onGoing'])->name('tracking.ongoing');
 
 Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');

@@ -1,4 +1,5 @@
 const truckId = window.truckId;
+const currentUrl = window.location.href;
 
 /**
  * Shows the loading overlay and hides the main content.
@@ -39,17 +40,14 @@ function startTracking() {
                 const data = await res.json();
 
                 if (data) {
-                    window.location.reload();
+                    window.location.href = currentUrl + '/on-going';
                 }
             } catch (error) {
-                alert('Terjadi kesalahan saat memulai tracking.');
+                alert('Terjadi kesalahan saat memulai tracking. Pastikan izin lokasi sudah diberikan.');
                 console.error(error);
-            } finally {
-                hideLoading();
             }
         },
         (error) => {
-            hideLoading();
             alert('Gagal mengambil lokasi. Pastikan izin lokasi sudah diberikan.');
             console.error('Error:', error);
         }
@@ -86,25 +84,17 @@ function finishTracking() {
 
                     // After 5 seconds, hide the animation, show the main content, and force a reload.
                     setTimeout(() => {
-                        document.getElementById('finish-shipping-animation').classList.add('hidden');
-                        document.getElementById('main-content').classList.remove('hidden');
+                        window.location.href = currentUrl.replace('/on-going', '');
                     }, 5000);
-
-                    window.location.reload();
-                } else {
-                    hideLoading();
-                    window.location.reload();
-                }
+                } 
             } catch (error) {
                 console.error('Fetch error:', error);
                 alert('Terjadi kesalahan saat mengirim data ke server.');
-                hideLoading();
             }
         },
         (error) => {
             alert('Gagal mengambil lokasi. Pastikan izin lokasi sudah diberikan.');
             console.error('Geolocation error:', error);
-            hideLoading();
         }
     );
 }
