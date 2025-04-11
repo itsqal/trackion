@@ -17,6 +17,8 @@ class SessionController extends Controller
         $attributes = request()->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
+        ], [
+            'email.email' => 'Format email tidak valid. Pastikan format email sudah benar.'
         ]);
 
         if (!Auth::attempt($attributes)) {

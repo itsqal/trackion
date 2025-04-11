@@ -11,7 +11,7 @@ class Shipment extends Model
     /** @use HasFactory<\Database\Factories\ShipmentFactory> */
     use HasFactory;
 
-    protected $appends = ['formatted_date'];
+    protected $appends = ['formatted_date', 'formatted_completed_at'];
     protected $fillable = [
         'truck_id',
         'departure_location',
@@ -21,7 +21,11 @@ class Shipment extends Model
         'return_waybill_number',
         'client',
         'load_type',
-        'delivery_order_price'
+        'delivery_order_price',
+        'final_location',
+        'completed_at',
+        'distance_traveled',
+        'status'
     ];
 
     public function truck()
@@ -51,5 +55,13 @@ class Shipment extends Model
     {
         Carbon::setLocale('id');
         return Carbon::parse($this->created_at)->translatedFormat('d F Y, H.i');
+    }
+
+    public function getFormattedCompletedAtAttribute()
+    {
+        Carbon::setLocale('id');
+        return $this->completed_at 
+            ? Carbon::parse($this->completed_at)->translatedFormat('d F Y, H.i')
+            : null;
     }
 }

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('departure_location');
             $table->string('final_location')->nullable();
             $table->float('distance_traveled')->nullable();
+            $table->dateTime('completed_at')->nullable();
             $table->enum('status', ['perjalanan', 'selesai'])->default('perjalanan');
             $table->timestamps();
         });

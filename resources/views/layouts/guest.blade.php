@@ -15,6 +15,7 @@
     <div class="flex items-center justify-center min-h-screen bg-black/40">
         @yield('content')
     </div>
-
+    
+    <script src="{{ asset('js/tracking.js') }}" defer></script>
 </body>
 </html>

@@ -46,7 +46,7 @@
 
             <x-modal-form-field
                 :editable="false"
-                value="{{ $shipment->total_distance ?? '' }}"
+                value="{{ $shipment->distance_traveled !== null ? $shipment->distance_traveled . ' Km' : '' }}"
                 label="Jarak Tempuh"
                 name="total_distance"
             />
@@ -77,7 +77,7 @@
 
             <x-modal-form-field
                 :editable="false"
-                value=""
+                value="{{ $shipment->formatted_completed_at ?? '' }}"
                 label="Waktu Sampai"
                 name="arrival_time"
             />
