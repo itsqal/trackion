@@ -9,10 +9,23 @@ use App\Livewire\Trucks\Table;
 
 class Index extends Component
 {
+    public function mount()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+    }
+
     public function exportExcel()
     {
         return $this->dispatch('exportTruck')->to(Table::class);
     }
+
+    public function viewAddTruck()
+    {
+        $this->dispatch('open-modal', name: 'view-add-truck');
+    }
+
     
     public function render()
     {

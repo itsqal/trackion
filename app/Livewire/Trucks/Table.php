@@ -10,9 +10,17 @@ use Livewire\Attributes\On;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
+use BaconQrCode\Renderer\GDLibRenderer;
+use BaconQrCode\Writer;
+
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
+
+    public $selectedTruck;
+    protected $listeners = ['truckUpdated' => '$refresh'];
 
     // Search filter
     #[Url(history:true)]
@@ -24,9 +32,55 @@ class Table extends Component
     // number of items per page
     public int $itemsPerPage=10;
 
+    public function viewTruck($id)
+    {
+        if(empty($this->selectedTruck)) {
+            $this->selectedTruck = Truck::findOrFail($id);
+        }
+
+        $this->dispatch('open-modal', name: 'view-edit-truck');
+    }
+
+    public function viewQRCode($id)
+    {
+        if(empty($this->selectedTruck)) {
+            $this->selectedTruck = Truck::findOrFail($id);
+        }
+
+        $this->dispatch('open-modal', name: 'view-truck-qr-code');
+    }
+
+    public function viewDeleteTruck($id)
+    {
+        if(empty($this->selectedTruck)) {
+            $this->selectedTruck = Truck::findOrFail($id);
+        }
+
+        $this->dispatch('open-modal', name: 'view-delete-truck');
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    public function downloadTruckQRCode($id)
+    {
+        $truck = Truck::findOrFail($id);
+        $url = route('tracking.show', $truck); 
+
+
+        $renderer = new GDLibRenderer(500);
+
+        $writer = new Writer($renderer);
+        $qrImage = $writer->writeString($url);
+    
+        return response()->stream(function () use ($qrImage) {
+            echo $qrImage;
+        }, 200, [
+            'Content-Type' => 'image/png',
+            'Content-Disposition' => 'attachment; filename="qr-code-' . $truck->plate_number . '.png"',
+        ]);
     }
 
     #[On('exportTruck')]
@@ -37,9 +91,10 @@ class Table extends Component
 
     public function render()
     {
-        $query = Truck::search($this->search)
-        ->orderBy($this->sortBy, $this->sortDir);
-
+        $query = Truck::where('user_id', Auth::id())
+            ->search($this->search)
+            ->orderBy($this->sortBy, $this->sortDir);
+    
         return view('livewire.trucks.table', [
             'trucks' => $query->paginate($this->itemsPerPage),
         ]);

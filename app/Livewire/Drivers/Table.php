@@ -10,6 +10,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
@@ -37,9 +39,12 @@ class Table extends Component
 
     public function render()
     {
-        $query = Driver::search($this->search)
-        ->orderBy($this->sortBy, $this->sortDir);
-
+        $query = Driver::whereHas('trucks', function ($truckQuery) {
+                $truckQuery->where('user_id', Auth::id());
+            })
+            ->search($this->search)
+            ->orderBy($this->sortBy, $this->sortDir);
+    
         return view('livewire.drivers.table', [
             'drivers' => $query->paginate($this->itemsPerPage),
         ]);
