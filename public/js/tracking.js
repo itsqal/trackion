@@ -67,6 +67,9 @@ function startTracking() {
         },
         (error) => {
             showErrorAlert();
+        },
+        {
+            enableHighAccuracy: false
         }
     );
 }
@@ -110,6 +113,9 @@ function finishTracking() {
         },
         (error) => {
             showErrorAlert();
+        },
+        {
+            enableHighAccuracy: false
         }
     );
 }
