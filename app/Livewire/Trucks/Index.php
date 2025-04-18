@@ -4,6 +4,7 @@ namespace App\Livewire\Trucks;
 
 use Livewire\Component;
 use App\Livewire\Trucks\Table;
+use Illuminate\Support\Facades\Auth;
 
 #[\Livewire\Attributes\Title('Truck')]
 
@@ -11,7 +12,7 @@ class Index extends Component
 {
     public function mount()
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
     }

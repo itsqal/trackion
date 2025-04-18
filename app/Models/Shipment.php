@@ -13,7 +13,9 @@ class Shipment extends Model
 
     protected $appends = ['formatted_date', 'formatted_completed_at'];
     protected $fillable = [
+        'user_id',
         'truck_id',
+        'plate_number',
         'departure_location',
         'departure_latitude',
         'departure_longitude',
@@ -33,6 +35,11 @@ class Shipment extends Model
         return $this->belongsTo(Truck::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function reports()
     {
         return $this->hasMany(Report::class);
@@ -45,9 +52,7 @@ class Shipment extends Model
             ->orWhere('return_waybill_number', 'ilike', "%{$value}%")
             ->orWhere('client', 'ilike', "%{$value}%")
             ->orWhere('status', 'ilike', "%{$value}%")
-            ->orWhereHas('truck', function ($query) use ($value) {
-                $query->where('plate_number', 'ilike', "%{$value}%");
-            });
+            ->orWhere('plate_number', 'ilike', "%{$value}%");
     }
 
 

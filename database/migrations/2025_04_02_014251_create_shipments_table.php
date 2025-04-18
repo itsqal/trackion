@@ -14,7 +14,14 @@ return new class extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('truck_id');
+            $table->foreignId('user_id');
+
+            $table->foreignUuid('truck_id')
+                    ->nullable()
+                    ->constrained()
+                    ->onDelete('set null');
+
+            $table->string('plate_number')->nullable();
             $table->integer('delivery_order_price')->nullable();
             $table->string('client')->nullable();
             $table->string('load_type')->nullable();

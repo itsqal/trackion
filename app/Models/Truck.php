@@ -17,7 +17,7 @@ class Truck extends Model
 
     protected $fillable = ['user_id', 'plate_number', 'model', 'current_status', 'total_distance'];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

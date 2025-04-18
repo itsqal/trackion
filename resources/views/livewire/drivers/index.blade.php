@@ -26,7 +26,7 @@
      <livewire:drivers.table lazy />
 
      <x-modal title="Tambah Pengemudi" name="view-add-driver">
-        Add driver data here
+        <livewire:drivers.create-form />
     </x-modal>
 
  </div>

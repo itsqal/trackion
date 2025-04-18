@@ -57,7 +57,7 @@
                                 <tr wire:click="viewShipment({{ $shipment->id }})" wire:key="{{ $shipment->id }}" class="hover:bg-gray-100 text-center text-xs text-black cursor-pointer">
                                     <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                     <td class="px-4 py-3">
-                                        {{ $shipment->truck->plate_number }}
+                                        {{ $shipment->plate_number }}
                                     </td>
                                     
                                     <td class="px-4 py-3">
