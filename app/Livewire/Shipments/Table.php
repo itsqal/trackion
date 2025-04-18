@@ -54,10 +54,7 @@ class Table extends Component
 
     public function render()
     {
-        $query = Shipment::whereHas('truck', function ($truckQuery) {
-                $truckQuery->where('user_id', Auth::id());
-            })
-            ->with(['truck:id,plate_number'])
+        $query = Shipment::where('user_id', Auth::user()->id)
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);
     

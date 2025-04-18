@@ -59,6 +59,17 @@ class Table extends Component
         $this->dispatch('open-modal', name: 'view-delete-truck');
     }
 
+    public function deleteTruck()
+    {
+        $truck = Truck::findOrFail($this->selectedTruck->id);
+        $truck->delete();
+
+        $this->reset('selectedTruck');
+
+        $this->dispatch('truckUpdated');
+        $this->dispatch('close-modal');
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();

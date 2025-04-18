@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Trucks;
 
-use App\Models\Truck;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class CreateForm extends Component
@@ -19,13 +19,15 @@ class CreateForm extends Component
             'total_distance' => 'nullable|numeric|min:0',
         ]);
 
-        Truck::create([
-            'user_id' => auth()->id(),
+        \App\Models\Truck::create([
+            'user_id' => Auth::id(),
             'plate_number' => $this->plate_number,
             'model' => $this->model,
             'total_distance' => $this->total_distance ?? 0,
             'current_status' => 'tidak dalam pengiriman',
         ]);
+
+        $this->reset(['plate_number', 'model', 'total_distance']);
 
         $this->dispatch('truckUpdated');
         $this->dispatch('close-modal');

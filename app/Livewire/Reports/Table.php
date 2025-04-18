@@ -45,9 +45,7 @@ class Table extends Component
 
     public function render()
     {
-        $query = Report::whereHas('shipment.truck', function ($truckQuery) {
-                $truckQuery->where('user_id', Auth::id());
-            })
+        $query = Report::where('user_id', Auth::user()->id)
             ->with('shipment.truck')
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);

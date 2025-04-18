@@ -134,7 +134,28 @@
         </x-slot:icon>
 
         @if ($selectedTruck)
-            Delete truck here
+        <p class="font-regular mb-2">Apakah anda yakin ingin menghapus truk ini?</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+            <p class="text-sm font-medium text-gray-800">Nomor Plat</p>
+            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedTruck->plate_number }}</p>
+
+            <p class="text-sm font-medium text-gray-800">Model</p>
+            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ ucwords($selectedTruck->model) }}</p>
+        </div>
+
+        <div class="flex justify-end mt-4 gap-1">
+            <button @click="$dispatch('close-modal')"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white"
+            >
+                Kembali
+            <button>
+            <button 
+                wire:click="deleteTruck"
+                class="bg-[#C30010] text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer"
+            >
+                Hapus
+            </button>
+        </div>
         @endif
     </x-modal>
 </div>

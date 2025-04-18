@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Shipment;
-use App\Models\Truck;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -30,14 +27,16 @@ class LocationController extends Controller
 
         $address = $response['results'][0]['formatted_address'] ?? 'Lokasi tidak diketahui';
 
-        $truck = Truck::findOrFail($request->truck_id);
+        $truck = \App\Models\Truck::findOrFail($request->truck_id);
 
         $truck->update([
             'current_status' => 'dalam pengiriman'
         ]);
 
-        Shipment::create([
+        \App\Models\Shipment::create([
+            'user_id' => $truck->user_id,
             'truck_id' => $truck->id,
+            'plate_number' => $truck->plate_number,
             'departure_latitude' => $lat,
             'departure_longitude' => $lng,
             'departure_location' => $address,
@@ -58,8 +57,8 @@ class LocationController extends Controller
             'truck_id' => 'required'
         ]);
 
-        $truck = Truck::findOrFail($request->truck_id);
-        $shipment = Shipment::where('truck_id', $truck->id)
+        $truck = \App\Models\Truck::findOrFail($request->truck_id);
+        $shipment = \App\Models\Shipment::where('truck_id', $truck->id)
                     ->latest()
                     ->first();
 

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Truck;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -22,7 +23,8 @@ class TrucksExport implements FromCollection, WithMapping, WithHeadings
 
     public function collection()
     {
-        return Truck::search($this->search)
+        return Truck::where('user_id', Auth::id())
+                ->search($this->search)
                 ->get();
     }
 

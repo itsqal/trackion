@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Shipment;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -26,7 +27,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        return Shipment::with(['truck:id,plate_number'])
+        return Shipment::where('user_id', Auth::id())
                 ->search($this->search)
                 ->when($this->startDate, function ($query) {
                     return $query->whereDate('created_at', '>=', $this->startDate);
@@ -40,7 +41,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
     public function map($shipment): array
     {
         return [
-            $shipment->truck->plate_number,
+            $shipment->plate_number,
             $shipment->delivery_order_price,
             $shipment->client,
             $shipment->load_type,
@@ -48,7 +49,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
             $shipment->return_waybill_number,
             $shipment->departure_location,
             $shipment->final_location,
-            $shipment->distance_traveled,
+            $shipment->distance_traveled ? $shipment->distance_traveled . ' km' : '0 km',
             ucfirst($shipment->status)
         ];
     }

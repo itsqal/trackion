@@ -16,6 +16,8 @@ class Table extends Component
 {
     use WithPagination;
 
+    protected $listeners = ['driverUpdated' => '$refresh'];
+
     // Search filter
     #[Url(history:true)]
     public string $search = '';
@@ -39,9 +41,7 @@ class Table extends Component
 
     public function render()
     {
-        $query = Driver::whereHas('trucks', function ($truckQuery) {
-                $truckQuery->where('user_id', Auth::id());
-            })
+        $query = Driver::where('user_id', Auth::id())
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);
     

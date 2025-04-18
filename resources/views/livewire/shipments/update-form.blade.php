@@ -10,7 +10,7 @@
         <div class="flex flex-col space-y-2">
             <x-modal-form-field
                 :editable="false"
-                value="{{ $shipment->truck->plate_number }}"
+                value="{{ $shipment->plate_number }}"
                 label="Nomor Plat"
                 name="plate_number"
             />
