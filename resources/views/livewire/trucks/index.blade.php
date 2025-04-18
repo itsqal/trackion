@@ -25,7 +25,7 @@
   <livewire:trucks.table lazy />
 
     <x-modal title="Tambah Truk" name="view-add-truck">
-        Add truck here
+        <livewire:trucks.create-form />
     </x-modal>
     
  </div>

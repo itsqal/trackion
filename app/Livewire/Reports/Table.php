@@ -10,6 +10,8 @@ use Livewire\Attributes\Url;
 use Livewire\Attributes\On;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
@@ -43,7 +45,10 @@ class Table extends Component
 
     public function render()
     {
-        $query = Report::with('shipment.truck')
+        $query = Report::whereHas('shipment.truck', function ($truckQuery) {
+                $truckQuery->where('user_id', Auth::id());
+            })
+            ->with('shipment.truck')
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);
 

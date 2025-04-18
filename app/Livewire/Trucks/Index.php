@@ -9,6 +9,13 @@ use App\Livewire\Trucks\Table;
 
 class Index extends Component
 {
+    public function mount()
+    {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+    }
+
     public function exportExcel()
     {
         return $this->dispatch('exportTruck')->to(Table::class);

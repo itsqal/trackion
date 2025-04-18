@@ -10,6 +10,8 @@ use App\Models\Shipment;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
 
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
@@ -52,14 +54,17 @@ class Table extends Component
 
     public function render()
     {
-        $query = Shipment::with(['truck:id,plate_number'])
+        $query = Shipment::whereHas('truck', function ($truckQuery) {
+                $truckQuery->where('user_id', Auth::id());
+            })
+            ->with(['truck:id,plate_number'])
             ->search($this->search)
             ->orderBy($this->sortBy, $this->sortDir);
-
+    
         if (!empty($this->startDate) && !empty($this->endDate)) {
             $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
         }
-
+    
         return view('livewire.shipments.table', [
             'shipments' => $query->paginate($this->itemsPerPage),
         ]);

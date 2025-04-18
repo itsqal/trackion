@@ -13,11 +13,14 @@ use Maatwebsite\Excel\Facades\Excel;
 use BaconQrCode\Renderer\GDLibRenderer;
 use BaconQrCode\Writer;
 
+use Illuminate\Support\Facades\Auth;
+
 class Table extends Component
 {
     use WithPagination;
 
     public $selectedTruck;
+    protected $listeners = ['truckUpdated' => '$refresh'];
 
     // Search filter
     #[Url(history:true)]
@@ -88,9 +91,10 @@ class Table extends Component
 
     public function render()
     {
-        $query = Truck::search($this->search)
-        ->orderBy($this->sortBy, $this->sortDir);
-
+        $query = Truck::where('user_id', Auth::id())
+            ->search($this->search)
+            ->orderBy($this->sortBy, $this->sortDir);
+    
         return view('livewire.trucks.table', [
             'trucks' => $query->paginate($this->itemsPerPage),
         ]);

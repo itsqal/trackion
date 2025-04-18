@@ -15,7 +15,7 @@ class Truck extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $fillable = ['current_status', 'total_distance'];
+    protected $fillable = ['user_id', 'plate_number', 'model', 'current_status', 'total_distance'];
 
     public function users()
     {
