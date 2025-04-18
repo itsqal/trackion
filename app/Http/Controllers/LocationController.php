@@ -39,7 +39,7 @@ class LocationController extends Controller
         ]);
 
         // Dispatch background job to reverse geocode
-        StartTrackingJOb::dispatch($shipment->id, $lat, $lng);
+        // StartTrackingJOb::dispatch($shipment->id, $lat, $lng);
 
         return response([
             'Message' => 'Tracking started successfully'
@@ -60,7 +60,18 @@ class LocationController extends Controller
                             ->firstOrFail();
 
         // Dispatch async job to calculate distance and complete shipment
-        FinishTrackingJob::dispatch($shipment->id, $request->latitude, $request->longitude);
+        // FinishTrackingJob::dispatch($shipment->id, $request->latitude, $request->longitude);
+
+        // Just for testing
+        $shipment->update([
+            'arrival_latitude' => $request->latitude,
+            'arrival_longitude' => $request->longitude,
+            'arrival_location' => 'Sedang memuat lokasi...',
+            'status' => 'selesai'
+        ]);
+        $truck->update([
+            'current_status' => 'tidak dalam pengiriman'
+        ]);
 
         return response([
             'Message' => 'Tracking completed. Processing in background.'
