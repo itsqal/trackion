@@ -17,6 +17,25 @@ function hideLoading() {
     document.getElementById('main-content').classList.remove('hidden');
 }
 
+function showErrorAlert() {
+    const alert = document.getElementById('error-alert');
+    
+    alert.classList.remove('hidden');
+    document.getElementById('loading-overlay').classList.add('hidden');
+    document.getElementById('main-content').classList.remove('hidden');
+
+    setTimeout(() => {
+        alert.classList.remove('-translate-y-full');
+        alert.classList.add('translate-y-4');
+    }, 10);
+    
+    setTimeout(() => {
+        alert.classList.remove('translate-y-4');
+        alert.classList.add('-translate-y-full');
+        setTimeout(() => alert.classList.add('hidden'), 500); // wait for transition to complete
+    }, 5000);
+}
+
 /**
  * Starts tracking by sending the current geolocation to the server.
  */
@@ -43,13 +62,11 @@ function startTracking() {
                     window.location.href = currentUrl + '/on-going';
                 }
             } catch (error) {
-                alert('Terjadi kesalahan saat memulai tracking. Pastikan izin lokasi sudah diberikan.');
-                console.error(error);
+                showErrorAlert();
             }
         },
         (error) => {
-            alert('Gagal mengambil lokasi. Pastikan izin lokasi sudah diberikan.');
-            console.error('Error:', error);
+            showErrorAlert();
         }
     );
 }
@@ -88,13 +105,11 @@ function finishTracking() {
                     }, 5000);
                 } 
             } catch (error) {
-                console.error('Fetch error:', error);
-                alert('Terjadi kesalahan saat mengirim data ke server.');
+                showErrorAlert();
             }
         },
         (error) => {
-            alert('Gagal mengambil lokasi. Pastikan izin lokasi sudah diberikan.');
-            console.error('Geolocation error:', error);
+            showErrorAlert();
         }
     );
 }

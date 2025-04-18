@@ -18,6 +18,10 @@ class TrackingController extends Controller
 
     public function onGoing(Truck $truck)
     {
-        return view('tracking.on-going', compact('truck'));
+        if($truck->current_status === 'dalam pengiriman'){
+            return view('tracking.on-going', compact('truck'));
+        }
+
+        return redirect(route('tracking.show', ['truck' => $truck->id]));
     }
 }

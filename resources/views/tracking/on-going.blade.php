@@ -14,9 +14,24 @@
         </div>
     </div>
 
+    <!-- Danger Alert -->
+    <div id="error-alert" class="fixed max-w-3xl top-0 left-1/2 transform -translate-x-1/2 -translate-y-full transition-all duration-500 flex items-center p-4 text-xs text-red-800 rounded-lg bg-red-50 z-50" role="alert">
+        <svg class="shrink-0 inline w-4 h-4 me-3" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+        </svg>
+        <span class="sr-only">Info</span>
+        <div>
+        <span class="font-medium">Gagal mengambil lokasi!</span> Pastikan GPS perangkat anda aktif dan izin lokasi diberikan.
+        </div>
+    </div>
+
     {{-- Loading Skeleton --}}
-    <div id="loading-overlay" class="flex items-center justify-center w-56 h-56 hidden">
-        <div class="px-5 py-2 text-lg font-medium leading-none text-center text-gray-800 bg-blue-200 rounded-full animate-bounce">Mohon tunggu...</div>
+    <div id="loading-overlay" class="flex flex-col items-center justify-center relative hidden">
+        <div class="absolute w-32 h-32 rounded-full bg-amber-200 opacity-30 animate-ping"></div>
+        
+        <div class="w-16 h-16 rounded-full bg-amber-500 animate-pulse" style="animation-duration: 2s;"></div>
+        
+        <p class="mt-4 text-lg font-medium text-white z-10 italic">Mohon tunggu...</p>
     </div>
 
 
@@ -75,7 +90,6 @@
             </form>
         </div>        
     </div>
-    
     <script>
         window.truckId = "{{ $truck->id }}";
     </script>
