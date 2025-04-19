@@ -12,7 +12,6 @@ class LocationController extends Controller
 {
     public function startTracking(Request $request)
     {
-        sleep(5);
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
@@ -49,7 +48,6 @@ class LocationController extends Controller
 
     public function finishTracking(Request $request)
     {
-        sleep(5);
         $request->validate([
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',

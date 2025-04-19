@@ -50,7 +50,7 @@ function startTracking() {
                 const data = await res.json();
 
                 if (data) {
-                    window.location.href = currentUrl + '/on-going';
+                    window.location.assign(currentUrl + '/on-going');
                 }
             } catch (error) {
                 showErrorAlert();
@@ -86,7 +86,7 @@ function finishTracking() {
                 const data = await res.json();
 
                 if (data) {
-                    window.location.href = currentUrl.replace('/on-going', '');
+                    window.location.replace(currentUrl.replace('/on-going', ''));
                 }
             } catch (error) {
                 showErrorAlert();
