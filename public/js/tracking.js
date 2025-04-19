@@ -14,6 +14,7 @@ function showErrorAlert() {
     
     alert.classList.remove('hidden');
     document.getElementById('loading-animation').classList.add('hidden');
+    document.getElementById('main-content').classList.remove('hidden');
 
     setTimeout(() => {
         alert.classList.remove('-translate-y-full');
