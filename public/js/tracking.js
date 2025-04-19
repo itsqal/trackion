@@ -41,37 +41,26 @@ function showErrorAlert() {
  */
 function startTracking() {
     showLoading();
-
-    navigator.geolocation.getCurrentPosition(
-        async (position) => {
-            try {
-                const { latitude, longitude } = position.coords;
-
-                const res = await fetch('/api/location/start-tracking', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ latitude, longitude, truck_id: truckId })
-                });
-
-                const data = await res.json();
-
-                if (data) {
-                    window.location.href = currentUrl + '/on-going';
-                }
-            } catch (error) {
-                showErrorAlert();
+    try {
+        const latitude = -6.909705;
+        const longitude = 107.610418;
+        fetch('/api/location/start-tracking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ latitude, longitude, truck_id: truckId })
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data) {
+                window.location.href = currentUrl + '/on-going';
             }
-        },
-        (error) => {
-            showErrorAlert();
-        },
-        {
-            enableHighAccuracy: false
-        }
-    );
+        });
+    } catch (error) {
+        showErrorAlert();
+    }
 }
 
 /**
@@ -80,42 +69,29 @@ function startTracking() {
  */
 function finishTracking() {
     showLoading();
+    try {
+        const latitude = -6.909705;
+        const longitude = 107.610418;
+        fetch('/api/location/finish-tracking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ latitude, longitude, truck_id: truckId })
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data) {
+                document.getElementById('loading-overlay').classList.add('hidden');
+                document.getElementById('finish-shipping-animation').classList.remove('hidden');
 
-    navigator.geolocation.getCurrentPosition(
-        async (position) => {
-            try {
-                const { latitude, longitude } = position.coords;
-
-                const res = await fetch('/api/location/finish-tracking', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({ latitude, longitude, truck_id: truckId })
-                });
-
-                const data = await res.json();
-
-                if (data) {
-                    // Hide the loading overlay and show the finish animation.
-                    document.getElementById('loading-overlay').classList.add('hidden');
-                    document.getElementById('finish-shipping-animation').classList.remove('hidden');
-
-                    // After 5 seconds, hide the animation, show the main content, and force a reload.
-                    setTimeout(() => {
-                        window.location.href = currentUrl.replace('/on-going', '');
-                    }, 5000);
-                } 
-            } catch (error) {
-                showErrorAlert();
+                setTimeout(() => {
+                    window.location.href = currentUrl.replace('/on-going', '');
+                }, 5000);
             }
-        },
-        (error) => {
-            showErrorAlert();
-        },
-        {
-            enableHighAccuracy: false
-        }
-    );
+        });
+    } catch (error) {
+        showErrorAlert();
+    }
 }
