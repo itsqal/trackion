@@ -89,7 +89,7 @@ function finishTracking() {
                 if (data) {
                     setTimeout(() => {
                         window.location.href = currentUrl.replace('/on-going', '');
-                    }, 3000);
+                    }, 1000);
                 }
             } catch (error) {
                 showErrorAlert();
