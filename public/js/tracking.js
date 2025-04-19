@@ -86,7 +86,9 @@ function finishTracking() {
                 const data = await res.json();
 
                 if (data) {
-                    window.location.replace(currentUrl.replace('/on-going', ''));
+                    setTimeout(() => {
+                        window.location.href = currentUrl.replace('/on-going', '');
+                    }, 3000);
                 }
             } catch (error) {
                 showErrorAlert();
