@@ -3,6 +3,17 @@
 @section('title', 'Tracking')
 
 @section('content')
+    {{-- Shipping start success animation --}}
+    <div id="loading-animation" class="flex flex-col items-center max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6 hidden">
+        <img src="{{ asset('images/shipping-started-animation.png') }}" alt="" class="max-w-65 max-h-65 animate-pulse">
+        <div class="text-center space-y-2">
+            <h1 class="text-white text-2xl sm:text-3xl font-bold">Anda Dalam Pengiriman!</h1>
+            <p class="text-white text-sm text-wrap sm:text-base font-regular">
+                Perjalanan Anda resmi dimulai. Pastikan untuk selalu berkendara dengan aman dan fokus selama pengiriman.
+            </p>
+        </div>
+    </div>
+
     <!-- Danger Alert -->
     <div id="error-alert" class="fixed max-w-3xl top-0 left-1/2 transform -translate-x-1/2 -translate-y-full transition-all duration-500 flex items-center p-4 text-xs text-red-800 rounded-lg bg-red-50 z-50" role="alert">
         <svg class="shrink-0 inline w-4 h-4 me-3" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -12,16 +23,6 @@
         <div>
         <span class="font-medium">Gagal mengambil lokasi!</span> Pastikan GPS perangkat anda aktif dan izin lokasi diberikan.
         </div>
-    </div>
-    
-    {{-- Loading Skeleton --}}
-    <div id="loading-overlay" class="flex flex-col items-center hidden">
-        <div class="bg-white p-5 rounded-full flex space-x-3">
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.2s;"></div>
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.4s;"></div>
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.6s;"></div>
-        </div>
-        <span class="text-white italic mt-2">Mohon tunggu...</span>
     </div>
     
     <div id="main-content" class="flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
