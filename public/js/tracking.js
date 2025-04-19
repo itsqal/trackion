@@ -42,8 +42,8 @@ function showErrorAlert() {
 function startTracking() {
     showLoading();
     try {
-        const latitude = -6.909705;
-        const longitude = 107.610418;
+        const latitude = -6.812465;
+        const longitude = 107.618792;
         fetch('/api/location/start-tracking', {
             method: 'POST',
             headers: {
@@ -70,8 +70,8 @@ function startTracking() {
 function finishTracking() {
     showLoading();
     try {
-        const latitude = -6.909705;
-        const longitude = 107.610418;
+        const latitude = -6.812465;
+        const longitude = 107.618792;
         fetch('/api/location/finish-tracking', {
             method: 'POST',
             headers: {
