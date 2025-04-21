@@ -15,16 +15,12 @@
     </div>
     
     {{-- Loading Skeleton --}}
-    <div id="loading-overlay" class="flex flex-col items-center hidden">
-        <div class="bg-white p-5 rounded-full flex space-x-3">
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.2s;"></div>
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.4s;"></div>
-            <div class="w-5 h-5 rounded-full bg-gray-800 animate-bounce" style="animation-delay: 0.6s;"></div>
-        </div>
-        <span class="text-white italic mt-2">Mohon tunggu...</span>
+    <div id="loading-overlay" class="loader hidden">
+        <span class="loader-text">Memproses</span>
+        <span class="load"></span>
     </div>
     
-    <div id="main-content" class="flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
+    <div id="main-content" class=" flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
         <!-- Judul dan deskripsi -->
         <div class="text-center space-y-2">
             <h1 class="text-white text-2xl sm:text-3xl font-bold">Siap Memulai Pengiriman Anda?</h1>
