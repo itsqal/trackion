@@ -43,7 +43,9 @@ class ReportsExport implements FromCollection, WithMapping, WithHeadings
         Carbon::setLocale('id');
 
         return [
+            $report->plate_number,
             $report->problem_type,
+            $report->report_location,
             $report->problem_description,
             Carbon::parse($report->created_at)->translatedFormat('d F Y, H.i')
         ];
@@ -52,7 +54,7 @@ class ReportsExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'Tipe Kendala', 'Deskripsi', 'Tanggal Laporan'
+            'kendaraan', 'Tipe Kendala', 'lokasi', 'Deskripsi', 'Tanggal Laporan'
         ];
     }
 }

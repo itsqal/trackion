@@ -7,7 +7,7 @@ let currentPosition = null;
  */
 function showLocationAlert() {
     const alert = document.getElementById('getting-location-alert');
-    alert.classList.remove('-translate-y-full', 'hidden');
+    alert.classList.remove('-translate-y-full');
     alert.classList.add('translate-y-4');
 }
 
@@ -18,24 +18,38 @@ function hideLocationAlert() {
     const alert = document.getElementById('getting-location-alert');
     alert.classList.remove('translate-y-4');
     alert.classList.add('-translate-y-full');
-    setTimeout(() => alert.classList.add('hidden'), 500);
+}
+
+/**
+ * Shows the success alert for 1.5 seconds
+ * and then hides it
+ */
+function showSuccessAlert() {
+    const alert = document.getElementById('success-location-alert');
+    alert.classList.remove('-translate-y-full');
+    alert.classList.add('translate-y-4');
+
+    setTimeout(() => {
+        alert.classList.remove('translate-y-4');
+        alert.classList.add('-translate-y-full');
+    }, 1500)
 }
 
 /**
  * Shows the error alert for 5 seconds
+ * and then hides it
  */
 function showErrorAlert() {
     const alert = document.getElementById('error-alert');
 
     hideLoading();
 
-    alert.classList.remove('-translate-y-full', 'hidden');
+    alert.classList.remove('-translate-y-full');
     alert.classList.add('translate-y-4');
 
     setTimeout(() => {
         alert.classList.remove('translate-y-4');
         alert.classList.add('-translate-y-full');
-        setTimeout(() => alert.classList.add('hidden'), 500);
     }, 5000);
 }
 
@@ -61,9 +75,11 @@ function hideLoading() {
 function disableButtons() {
     const startButton = document.querySelector('[onclick="startTracking()"]');
     const finishButton = document.querySelector('[onclick="finishTracking()"]');
+    const reportButton = document.getElementById('report-button');
 
     if (startButton) startButton.disabled = true;
     if (finishButton) finishButton.disabled = true;
+    if (reportButton) reportButton.disabled = true;
 }
 
 /**
@@ -72,9 +88,11 @@ function disableButtons() {
 function enableButtons() {
     const startButton = document.querySelector('[onclick="startTracking()"]');
     const finishButton = document.querySelector('[onclick="finishTracking()"]');
+    const reportButton = document.getElementById('report-button');
 
     if (startButton) startButton.disabled = false;
     if (finishButton) finishButton.disabled = false;
+    if (reportButton) reportButton.disabled = false;
 }
 
 /**
@@ -94,6 +112,7 @@ function getCurrentLocation() {
                 };
                 console.log('Successfully fetched location:', currentPosition);
                 hideLocationAlert();
+                showSuccessAlert();
                 enableButtons();
                 resolve(currentPosition);
             },
@@ -106,7 +125,7 @@ function getCurrentLocation() {
             },
             {
                 enableHighAccuracy: true,
-                timeout: 30000,
+                timeout: 60000,
                 maximumAge: 0
             }
         );
@@ -118,6 +137,10 @@ function getCurrentLocation() {
  */
 async function startTracking() {
     try {
+        if (!currentPosition) {
+            throw new Error('Position not set');
+        }
+
         showLoading();
         const res = await fetch('/api/location/start-tracking', {
             method: 'POST',
@@ -130,7 +153,7 @@ async function startTracking() {
 
         const data = await res.json();
         if (data) {
-            window.location.href = currentUrl + '/on-going';
+            window.location.href = currentUrl + '/started-success';
         }
     } catch (error) {
         showErrorAlert();
@@ -142,6 +165,10 @@ async function startTracking() {
  */
 async function finishTracking() {
     try {
+        if (!currentPosition) {
+            throw new Error('Position not set');
+        }
+
         showLoading();
         const res = await fetch('/api/location/finish-tracking', {
             method: 'POST',
@@ -153,15 +180,9 @@ async function finishTracking() {
         });
 
         const data = await res.json();
-        if (data) {
-            // Hide the loading overlay and show the finish animation
-            document.getElementById('loading-overlay').classList.add('hidden');
-            document.getElementById('finish-shipping-animation').classList.remove('hidden');
 
-            // After 5 seconds, redirect
-            setTimeout(() => {
-                window.location.href = currentUrl.replace('/on-going', '');
-            }, 5000);
+        if (data) {
+            window.location.href = currentUrl + '/success';
         }
     } catch (error) {
         showErrorAlert();
@@ -169,6 +190,14 @@ async function finishTracking() {
 }
 
 // Start fetching location when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    getCurrentLocation().catch(() => { });
+document.addEventListener('DOMContentLoaded', async () => {
+    await getCurrentLocation();
+
+    const reportLatitude = document.getElementById('report-latitude');
+    const reportLongitude = document.getElementById('report-longitude');
+
+    if(currentPosition && reportLatitude && reportLongitude) {
+        reportLatitude.value = currentPosition.latitude;
+        reportLongitude.value = currentPosition.longitude;
+    }
 });

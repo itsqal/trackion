@@ -5,7 +5,7 @@
      
     <x-page-menu>
         <div>
-            <span class="text-2xl text-white font-sans font-semibold">Data Laporan Kendala</span>
+            <span class="text-2xl text-white font-sans font-semibold">Laporan Kendala</span>
         </div>
 
         <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>

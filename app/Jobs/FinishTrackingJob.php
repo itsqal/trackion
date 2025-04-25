@@ -23,7 +23,7 @@ class FinishTrackingJob implements ShouldQueue
         $this->lng = $lng;
     }
 
-    public function handle()
+    public function handle(): void
     {
         $shipment = Shipment::find($this->shipmentId);
         if (!$shipment) return;

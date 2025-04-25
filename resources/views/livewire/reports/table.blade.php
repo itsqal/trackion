@@ -40,6 +40,7 @@
                             <tr class="text-center">
                                 <th scope="col" class="px-4 py-3">No</th>
                                 <th scope="col" class="px-4 py-3">Nomor Plat</th>
+                                <th scope="col" class="px-4 py-3">Lokasi</th>
                                 <th scope="col" class="px-4 py-3">Tipe Kendala</th>
                                 <th scope="col" class="px-4 py-3">Deskripsi Laporan</th>
                                 <th scope="col" class="px-4 py-3">Tanggal Laporan</th>
@@ -49,7 +50,8 @@
                             @foreach ($reports as $report)
                             <tr class="hover:bg-gray-50 text-center text-xs text-black">
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
-                                <td class="px-4 py-3">{{ $report->shipment->truck->plate_number }}</td>
+                                <td class="px-4 py-3">{{ $report->plate_number }}</td>
+                                <td class="px-4 py-3 text-left whitespace-normal break-words">{{ $report->report_location }}</td>
                                 <td class="px-4 py-3">{{ ucwords($report->problem_type) }}</td>
                                 <td class="px-4 py-3 text-left whitespace-normal break-words">{{
                                     ucfirst($report->problem_description) }}</td>
@@ -65,7 +67,7 @@
                     @foreach ($reports as $report)
                     <div class="p-4 border-b border-gray-200 hover:bg-gray-50">
                         <div class="flex justify-between items-start mb-2">
-                            <div class="text-sm font-medium text-gray-900">{{ $report->shipment->truck->plate_number }}
+                            <div class="text-sm font-medium text-gray-900">{{ $report->plate_number }}
                             </div>
                             <span class="text-xs font-medium text-gray-500">{{ $report->formatted_date }}</span>
                         </div>
@@ -73,6 +75,12 @@
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Tipe Kendala:</span>
                                 <span class="font-medium">{{ ucwords($report->problem_type) }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block mb-1">Lokasi:</span>
+                                <p class="font-medium text-gray-800 whitespace-normal break-words">
+                                    {{ ucfirst($report->report_location) }}
+                                </p>
                             </div>
                             <div>
                                 <span class="text-gray-500 block mb-1">Deskripsi:</span>

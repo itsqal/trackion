@@ -105,4 +105,10 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
 
+    'ttl' => env('CACHE_TTL', 60 * 24 * 7), // 1 week default cache
+
+    'static_assets' => [
+        'driver' => 'file',
+        'ttl' => 60 * 24 * 30, // 30 days for static assets
+    ],
 ];

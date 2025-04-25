@@ -57,54 +57,60 @@
     <span class="load"></span>
 </div>
 
-<div id="main-content" class="flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
-    {{-- Title and description --}}
-    <div class="text-center space-y-2">
-        <h1 class="text-white text-2xl sm:text-3xl font-bold">Anda Dalam Pengiriman!</h1>
-        <p class="text-white text-sm sm:text-base font-medium">
-            Pastikan perjalanan Anda tetap aman dan terkendali, dan segera laporkan jika terjadi kendala.
-        </p>
-    </div>
-
-    {{-- Vehicle's information --}}
-    <div class="bg-white p-6 sm:p-6 rounded-2xl shadow-lg space-y-4 relative">
-        <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
-            <p class="text-sm font-medium text-[var(--color-primary)]">Nomor Plat</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $truck->plate_number }}</p>
-
-            <p class="text-sm font-medium text-[var(--color-primary)]">Pengemudi</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;-</p>
-
-            <p class="text-sm font-medium text-[var(--color-primary)]">Kendaraan</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ ucwords($truck->model) }}</p>
-
-            <p class="text-sm font-medium text-[var(--color-primary)]">Status</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ ucwords($truck->current_status) }}</p>
+<div id="main-content" class="flex flex-col w-full max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
+    {{-- Create Report Section --}}
+    <div class="bg-white p-6 rounded-2xl shadow-lg space-y-4 relative">
+        <div class="mx-[-24px] px-6 pb-4 border-b border-gray-200">
+            <h2 class="text-base font-medium text-gray-900">Lapor Kendala Pengiriman</h2>
         </div>
 
-        {{-- Action buttons --}}
-        <form id="tracking-form" class="pt-4">
-            <div class="flex flex-col sm:flex-row justify-between gap-4">
-                <button onclick="finishTracking()" type="button"
-                    class="w-full px-6 py-2 bg-[var(--color-primary)] hover:opacity-90 text-white text-sm font-medium rounded-full transition disabled:opacity-50 disabled:cursor-not-allowed">
-                    Selesai
-                </button>
+        {{-- Report Form --}}
+        <form method="POST" action="{{ route('tracking.store-report', ['truck' => $truck->id]) }}"
+            class="space-y-6 pt-2">
+            @csrf
 
-                <button 
-                    id="report-button"
-                    type="button" 
-                    onclick="window.location.href='{{ route('tracking.create-report', ['truck' => $truck->id]) }}'"
-                    class="flex justify-center items-center gap-2 px-6 py-2 bg-[#DF0404] hover:opacity-90 text-white text-sm font-medium rounded-full transition lg:w-full md:w-full disabled:opacity-50 disabled:cursor-not-allowed">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
-                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" 
-                        class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" 
-                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 
-                                1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 
-                                3.378c-.866-1.5-3.032-1.5-3.898 
-                                0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                    </svg>
-                    Lapor Kendala
+            <input id="report-latitude" type="hidden" name="latitude">
+            <input id="report-longitude" type="hidden" name="longitude">
+
+            {{-- Issue Type Dropdown --}}
+            <div class="w-full">
+                <label for="issue_type" class="block text-xs font-medium text-gray-700 mb-1">Tipe Kendala</label>
+                <select id="issue_type" name="problem_type" required
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] text-xs">
+                    <option value="">Pilih tipe kendala</option>
+                    <option value="masalah kendaraan">Kendala Mekanis</option>
+                    <option value="kemacetan">Kendala Lalu Lintas</option>
+                    <option value="kecelakaan">Kecelakaan</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+
+            {{-- Issue Description Textbox --}}
+            <div class="w-full">
+                <label for="description" class="block text-xs font-medium text-gray-700 mb-1">Deskripsi Kendala</label>
+                <textarea id="description" name="problem_description" rows="6"
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] text-xs"
+                    placeholder="Jelaskan kendala yang dialami..."></textarea>
+            </div>
+
+            @if ($errors->any())
+            @php
+            $lastErrorMessage = collect($errors->all())->last();
+            @endphp
+            <p class="mt-3 text-xs text-center text-red-600 my-2 font-medium">
+                {{ $lastErrorMessage }}
+            </p>
+            @endif
+
+            {{-- Action Buttons --}}
+            <div class="flex justify-between pt-2">
+                <a href="{{ route('tracking.on-going', ['truck' => $truck->id]) }}"
+                    class="px-6 py-2 bg-white border-1 border-[var(--color-primary)] text-[var(--color-primary)] text-xs font-medium rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200">
+                    Kembali
+                </a>
+                <button type="submit" onclick="showLoading()"
+                    class="px-6 py-2 bg-[var(--color-primary)] text-white text-xs font-medium rounded-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)]">
+                    Kirim
                 </button>
             </div>
         </form>

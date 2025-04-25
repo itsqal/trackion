@@ -32,7 +32,7 @@ position: absolute;
 content: "";
 width: 100%;
 height: 100%;
-background-color: #D1C2FF;
+background-color: #FAFAFA;
 border-radius: inherit;
 animation: loading2_713 3.5s ease both infinite;
 }

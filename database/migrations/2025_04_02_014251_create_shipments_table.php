@@ -21,7 +21,7 @@ return new class extends Migration
                     ->constrained()
                     ->onDelete('set null');
 
-            $table->string('plate_number')->nullable();
+            $table->string('plate_number');
             $table->integer('delivery_order_price')->nullable();
             $table->string('client')->nullable();
             $table->string('load_type')->nullable();

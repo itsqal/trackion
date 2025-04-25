@@ -8,15 +8,14 @@
          <span class="text-2xl text-white font-sans font-semibold">Data Truk</span>
      </div>
 
-     <div class="flex justify-around gap-3.5">
+     <div class="flex flex-col sm:flex-row justify-around gap-3.5">
         <x-button wire:click="viewAddTruck()" style='white'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>  
+            </svg>
             Tambah
         </x-button>
 
-        {{-- Not yet implemented --}}
         <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
       </div>
   </x-page-menu>

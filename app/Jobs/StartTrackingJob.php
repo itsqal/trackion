@@ -22,7 +22,7 @@ class StartTrackingJob implements ShouldQueue
         $this->lng = $lng;
     }
 
-    public function handle()
+    public function handle(): void
     {
         $googleApiKey = config('services.google_maps.key');
         $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [

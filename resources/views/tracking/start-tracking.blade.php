@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.tracking')
 
 @section('title', 'Tracking')
 
@@ -39,14 +39,26 @@
     </div>
 </div>
 
+{{-- Success Location Alert --}}
+<div id="success-location-alert"
+    class="fixed min-w-xs top-0 left-1/2 transform -translate-x-1/2 -translate-y-full transition-all duration-500 flex items-center gap-2 p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50"
+    role="alert">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+    </svg>
+    <span class="font-medium text-xs">Berhasil mendapatkan lokasi !</span>
+</div>
+
 {{-- Loading Skeleton --}}
 <div id="loading-overlay" class="loader hidden">
     <span class="loader-text">Memproses</span>
     <span class="load"></span>
 </div>
 
-<div id="main-content" class=" flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6 ">
-    <!-- Judul dan deskripsi -->
+<div id="main-content" class=" flex flex-col max-w-xl mx-auto px-4 sm:px-6 mt-10 space-y-6">
+    {{-- Title and description --}}
     <div class="text-center space-y-2">
         <h1 class="text-white text-2xl sm:text-3xl font-bold">Siap Memulai Pengiriman Anda?</h1>
         <p class="text-white text-sm sm:text-base font-medium">
@@ -54,7 +66,7 @@
         </p>
     </div>
 
-    <!-- Informasi Truck & Pengemudi -->
+    {{-- Vehicle's information --}}
     <div class="bg-white p-4 sm:p-6 rounded-2xl shadow-lg space-y-2 relative">
         <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
             <p class="text-sm font-medium text-[var(--color-primary)]">Nomor Plat</p>
@@ -67,7 +79,7 @@
             <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ ucwords($truck->model) }}</p>
         </div>
 
-        <!-- Tombol aksi -->
+        {{-- Action button --}}
         <form id="start-tracking-form" class="pt-4">
             <div class="flex flex-col sm:flex-row justify-between gap-4">
                 <button type="button" onclick="startTracking()"
@@ -78,7 +90,10 @@
         </form>
     </div>
 </div>
+@endsection
+@section('scripts')
 <script>
     window.truckId = "{{ $truck->id }}";
 </script>
+<script src="{{ asset('js/tracking.js') }}?v={{ filemtime(public_path('js/tracking.js')) }}" defer></script>
 @endsection

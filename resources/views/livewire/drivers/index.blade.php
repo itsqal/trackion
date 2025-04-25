@@ -8,7 +8,7 @@
             <span class="text-2xl text-white font-sans font-semibold">Data Pengemudi</span>
         </div>
 
-        <div class="flex justify-around gap-3.5">
+        <div class="flex flex-col sm:flex-row justify-around gap-3.5">
             <x-button 
                 wire:click="viewAddDriver()"
                 style='white'>
