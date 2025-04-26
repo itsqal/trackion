@@ -41,15 +41,15 @@
                                 <td class="px-4 py-3">{{ $driver->email }}</td>
                                 <td class="px-4 py-3 flex justify-center gap-2">
                                     <button wire:click="viewDriver('{{ $driver->id }}')"
-                                        class="text-white bg-[#FFB700] rounded-lg p-2 hover:opacity-90 transition">
+                                        class="text-white bg-[#FFB700] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
                                     </button>
-                                    <button wire:click="viewDeleteDriver('{{ $driver->id }}')"
-                                        class="text-white bg-[#C30010] rounded-lg p-2 hover:opacity-90 transition">
+                                    <button wire:click="viewDeleteDriver({{ $driver->id }})"
+                                        class="text-white bg-[#C30010] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -78,7 +78,7 @@
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </button>
-                                <button wire:click="viewDeleteDriver('{{ $driver->id }}')"
+                                <button wire:click="viewDeleteDriver({{ $driver->id }})"
                                     class="text-white bg-[#C30010] rounded-lg p-2 hover:opacity-90 transition">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="size-4">
@@ -124,4 +124,41 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="Detail Pengemudi" name="view-edit-driver">
+        @if ($selectedDriver)
+            <livewire:drivers.update-form :driver="$selectedDriver" :key="$selectedDriver->id"/>
+        @endif
+    </x-modal>
+
+    <x-modal title="Hapus Data Pengemudi" name="view-delete-driver">
+        <x-slot:icon>
+            <x-icons.round-warning class="size-5 text-red-600" />
+        </x-slot:icon>
+
+        @if ($selectedDriver)
+        <p class="font-regular mb-2">Apakah anda yakin ingin menghapus data pengemudi ini?</p>
+        <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+            <p class="text-sm font-medium text-gray-800">Nama</p>
+            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedDriver->name }}</p>
+
+            <p class="text-sm font-medium text-gray-800">Kontak</p>
+            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedDriver->contact_number }}</p>
+
+            <p class="text-sm font-medium text-gray-800">Email</p>
+            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedDriver->email }}</p>
+        </div>
+
+        <div class="flex justify-end mt-4 gap-1">
+            <button @click="$dispatch('close-modal')"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white">
+                Kembali
+                <button>
+                    <button wire:click="deleteDriver"
+                        class="bg-[#C30010] text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer">
+                        Hapus
+                    </button>
+        </div>
+        @endif
+    </x-modal>
 </div>

@@ -34,27 +34,21 @@ class Table extends Component
 
     public function viewTruck($id)
     {
-        if(empty($this->selectedTruck)) {
-            $this->selectedTruck = Truck::findOrFail($id);
-        }
+        $this->selectedTruck = Truck::findOrFail($id);
 
         $this->dispatch('open-modal', name: 'view-edit-truck');
     }
 
     public function viewQRCode($id)
     {
-        if(empty($this->selectedTruck)) {
-            $this->selectedTruck = Truck::findOrFail($id);
-        }
+        $this->selectedTruck = Truck::findOrFail($id);
 
         $this->dispatch('open-modal', name: 'view-truck-qr-code');
     }
 
     public function viewDeleteTruck($id)
     {
-        if(empty($this->selectedTruck)) {
-            $this->selectedTruck = Truck::findOrFail($id);
-        }
+        $this->selectedTruck = Truck::findOrFail($id);
 
         $this->dispatch('open-modal', name: 'view-delete-truck');
     }

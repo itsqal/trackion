@@ -45,7 +45,7 @@
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $truck->plate_number }}</td>
                                 <td class="px-4 py-3">{{ $truck->model }}</td>
-                                <td class="px-4 py-3">{{ number_format($truck->total_distance, 0, ',', '.') }} Km</td>
+                                <td class="px-4 py-3">{{ number_format($truck->total_distance, 2, ',', '.') }} Km</td>
                                 <td class="px-4 py-3">
                                     <span class="px-3 py-1 text-xs font-medium rounded-full {{ $statusClass }}">
                                         {{ ucwords($status) }}
@@ -53,9 +53,9 @@
                                 </td>
                                 <td class="px-4 py-3 flex justify-center gap-2">
                                     <button wire:click="viewQRCode('{{  $truck->id }}')"
-                                        class="text-white bg-[var(--color-primary)] rounded-lg p-2 hover:opacity-90 transition">QR</button>
+                                        class="text-white bg-[var(--color-primary)] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">QR</button>
                                     <button wire:click="viewTruck('{{ $truck->id }}')"
-                                        class="text-white bg-[#FFB700] rounded-lg p-2 hover:opacity-90 transition">
+                                        class="text-white bg-[#FFB700] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -63,7 +63,7 @@
                                         </svg>
                                     </button>
                                     <button wire:click="viewDeleteTruck('{{ $truck->id }}')"
-                                        class="text-white bg-[#C30010] rounded-lg p-2 hover:opacity-90 transition">
+                                        class="text-white bg-[#C30010] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="2" stroke="currentColor" class="size-4">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -117,7 +117,7 @@
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-500">Total Jarak:</span>
-                                <span class="font-medium">{{ number_format($truck->total_distance, 0, ',', '.') }}
+                                <span class="font-medium">{{ number_format($truck->total_distance, 2, ',', '.') }}
                                     Km</span>
                             </div>
                             <div class="flex justify-between">
@@ -155,12 +155,6 @@
     </section>
 
     <!-- Modals -->
-    <x-modal title="Detail Truk" name="view-edit-truck">
-        @if ($selectedTruck)
-        Edit truck page here
-        @endif
-    </x-modal>
-
     <x-modal title="QR Code" :centerTitle="true" name="view-truck-qr-code">
         @if ($selectedTruck)
         <div class="flex flex-col items-center justify-center space-y-6">
@@ -203,6 +197,12 @@
                         Hapus
                     </button>
         </div>
+        @endif
+    </x-modal>
+
+    <x-modal title="Detail Data Truk" name="view-edit-truck">
+        @if ($selectedTruck)
+        <livewire:trucks.update-form :truck="$selectedTruck" :key="$selectedTruck->id" />
         @endif
     </x-modal>
 </div>

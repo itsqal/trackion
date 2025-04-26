@@ -48,7 +48,8 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($reports as $report)
-                            <tr class="hover:bg-gray-50 text-center text-xs text-black">
+                            <tr wire:click="viewReport({{ $report->id }})" wire:key="{{ $report->id }}"
+                                class="hover:bg-gray-50 text-center text-xs text-black cursor-pointer">
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $report->plate_number }}</td>
                                 <td class="px-4 py-3 text-left whitespace-normal break-words">{{ $report->report_location }}</td>
@@ -65,7 +66,8 @@
                 <!-- Mobile Card View -->
                 <div class="md:hidden">
                     @foreach ($reports as $report)
-                    <div class="p-4 border-b border-gray-200 hover:bg-gray-50">
+                    <div wire:click="viewReport({{ $report->id }})" wire:key="{{ $report->id }}" 
+                        class="p-4 border-b border-gray-200 hover:bg-gray-50">
                         <div class="flex justify-between items-start mb-2">
                             <div class="text-sm font-medium text-gray-900">{{ $report->plate_number }}
                             </div>
@@ -115,4 +117,10 @@
             </div>
         </div>
     </section>
+
+    <x-modal title="Detail Laporan Kendala" name="detail-view-report">
+        @if ($selectedReport)
+            <livewire:reports.view :report="$selectedReport" :key="$selectedReport->id">
+        @endif
+    </x-modal>
 </div>

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class Table extends Component
 {
     use WithPagination;
+    public $selectedDriver;
 
     protected $listeners = ['driverUpdated' => '$refresh'];
 
@@ -27,6 +28,32 @@ class Table extends Component
 
     // number of items per page
     public int $itemsPerPage=5;
+
+    public function viewDriver($id)
+    {
+        $this->selectedDriver = Driver::findOrFail($id);
+
+        $this->dispatch('open-modal', name: 'view-edit-driver');
+    }
+
+    public function viewDeleteDriver($id)
+    {
+        $this->selectedDriver = Driver::findOrFail($id);
+
+        $this->dispatch('open-modal', name: 'view-delete-driver');
+    }
+
+    public function deleteDriver()
+    {
+        $driver = Driver::findOrFail($this->selectedDriver->id);
+        $driver->delete();
+
+        $this->reset('selectedDriver');
+        
+
+        $this->dispatch('driverUpdated');
+        $this->dispatch('close-modal');
+    }
 
     public function updatedSearch()
     {

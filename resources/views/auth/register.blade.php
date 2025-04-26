@@ -80,10 +80,10 @@
 
             @if ($errors->any())
             @php
-            $lastErrorMessage = collect($errors->all())->last();
+            $errorMessage = collect($errors->all())->first();
             @endphp
             <p class="mt-3 text-xs text-center text-red-600 my-2 font-medium">
-                {{ $lastErrorMessage }}
+                {{ $errorMessage }}
             </p>
             @endif
 

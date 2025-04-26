@@ -17,6 +17,11 @@ class CreateForm extends Component
             'plate_number' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'total_distance' => 'nullable|numeric|min:0',
+        ], [
+            'plate_number.required' => 'Nomor plat tidak boleh kosong. Mohon isi nomor plat kendaraan.',
+            'model.required' => 'Model tidak boleh kosong. Mohon isi data model kendaraan.',
+            'total_distance.numeric' => 'Total jarak harus berupa angka.',
+            'total_distance.min' => 'Total jarak tidak valid.',
         ]);
 
         \App\Models\Truck::create([
