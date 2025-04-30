@@ -88,7 +88,9 @@
             @endif
 
             <button type="submit"
-                class="mt-3 w-full text-sm sm:text-base bg-[var(--color-primary)] text-white font-semibold py-2 rounded-3xl">Register</button>
+                class="mt-3 w-full text-sm sm:text-base bg-[var(--color-primary)] text-white font-semibold py-2 rounded-3xl">
+                Register
+            </button>
 
             <div class="flex justify-center mt-3">
                 <span class="text-xs sm:text-gray-700 font-semibold">

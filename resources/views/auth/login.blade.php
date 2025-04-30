@@ -43,7 +43,8 @@
             </div>
 
             <div class="flex justify-end mb-3 mt-3">
-                <a href="#" class="text-xs sm:text-xs text-[#9747FF] font-semibold hover:underline">Lupa password?</a>
+                <a href="{{  route('password.request') }}"
+                    class="text-xs sm:text-xs text-[#9747FF] font-semibold hover:underline">Lupa password?</a>
             </div>
 
             @if ($errors->any())
@@ -56,8 +57,9 @@
             @endif
 
             <button type="submit"
-                class="w-full text-sm sm:text-base bg-[var(--color-primary)] text-white font-semibold py-2 rounded-3xl">LOG
-                IN</button>
+                class="w-full text-sm sm:text-base bg-[var(--color-primary)] text-white font-semibold py-2 rounded-3xl">
+                LOG IN
+            </button>
 
             <div class="flex justify-center mt-3">
                 <span class="text-xs sm:text-gray-700 font-semibold">

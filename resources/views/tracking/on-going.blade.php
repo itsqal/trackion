@@ -115,5 +115,5 @@
 <script>
     window.truckId = "{{ $truck->id }}";
 </script>
-<script src="{{ asset('js/tracking.js') }}?v={{ filemtime(public_path('js/tracking.js')) }}" defer></script>
+@vite('resources/js/tracking.js')
 @endsection

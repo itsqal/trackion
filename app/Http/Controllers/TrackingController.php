@@ -45,6 +45,7 @@ class TrackingController extends Controller
         ], [
             'latitude' => 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin lokasi diberikan.',
             'longitude' => 'Gagal mendapatkan lokasi. Pastikan GPS aktif dan izin lokasi diberikan.',
+            'problem_type.required' => 'Mohon pilih tipe kendala.'
         ]);
 
         ReportProcessingJob::dispatch($truck, $validated);

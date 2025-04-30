@@ -73,7 +73,9 @@
             <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $truck->plate_number }}</p>
 
             <p class="text-sm font-medium text-[var(--color-primary)]">Pengemudi</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;-</p>
+            <p class="text-sm font-medium text-gray-800">
+                :&nbsp;&nbsp;&nbsp;{{ $truck->drivers->pluck('name')->implode(', ') }}
+            </p>
 
             <p class="text-sm font-medium text-[var(--color-primary)]">Kendaraan</p>
             <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ ucwords($truck->model) }}</p>
@@ -95,5 +97,5 @@
 <script>
     window.truckId = "{{ $truck->id }}";
 </script>
-<script src="{{ asset('js/tracking.js') }}?v={{ filemtime(public_path('js/tracking.js')) }}" defer></script>
+@vite('resources/js/tracking.js')
 @endsection

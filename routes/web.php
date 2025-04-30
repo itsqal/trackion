@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PasswordResetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisteredUserController;
@@ -18,6 +19,12 @@ Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
+Route::get('/forgot-password', [PasswordResetController::class, 'showForgotPassworForm'])->name('password.request');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
+Route::post('/reset-password', [PasswordResetController::class, 'resetUserPassword'])->name('password.update');
+
+Route::get('/reset-password/{token}', [PasswordResetController::class, 'showResetPasswordForm'])->name('password.reset');
+
 // Tracking
 Route::get('/track/{truck}', [TrackingController::class, 'startTracking'])->name('tracking.start-tracking');
 Route::get('/track/{truck}/started-success', [TrackingController::class, 'startedSuccess'])->name('tracking.started-success');
@@ -31,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/shipments', App\Livewire\Shipments\Index::class)->name('shipments.index');
 
     Route::get('/trucks', App\Livewire\Trucks\Index::class)->name('trucks.index');
-    
+
     Route::get('/drivers', App\Livewire\Drivers\Index::class)->name('drivers.index');
     
     Route::get('/reports', App\Livewire\Reports\Index::class)->name('reports.index');

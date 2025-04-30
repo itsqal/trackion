@@ -19,10 +19,12 @@
             <x-modal-form-field
                 :editable="false"
                 type="textarea"
+                rows="5"
                 value="{{ $report->report_location }}"
                 label="Lokasi Laporan"
                 name="report_location"
             />
+
         </div>
 
         <!-- Right Column -->

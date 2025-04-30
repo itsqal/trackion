@@ -75,7 +75,7 @@
             {{-- Issue Type Dropdown --}}
             <div class="w-full">
                 <label for="issue_type" class="block text-xs font-medium text-gray-700 mb-1">Tipe Kendala</label>
-                <select id="issue_type" name="problem_type" required
+                <select id="issue_type" name="problem_type"
                     class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)] text-xs">
                     <option value="">Pilih tipe kendala</option>
                     <option value="masalah kendaraan">Kendala Mekanis</option>
@@ -121,5 +121,5 @@
 <script>
     window.truckId = "{{ $truck->id }}";
 </script>
-<script src="{{ asset('js/tracking.js') }}?v={{ filemtime(public_path('js/tracking.js')) }}" defer></script>
+@vite('resources/js/tracking.js')
 @endsection

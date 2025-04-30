@@ -30,6 +30,7 @@ class Report extends Model
     {
         return $query->where('problem_type', 'ilike', "%{$value}%")
             ->orWhere('problem_description', 'ilike', "%{$value}%")
+            ->orWhere('report_location', 'ilike', "%{$value}%")
             ->orWhere('plate_number', 'ilike', "%{$value}%");
     }
 
