@@ -18,7 +18,9 @@ class SessionController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ], [
-            'email.email' => 'Format email tidak valid. Pastikan format email sudah benar.'
+            'email.email' => 'Format email tidak valid. Pastikan format email sudah benar.',
+            'email.required' => 'Mohon isi email dan password.',
+            'password.required' => 'Mohon isi email dan password.'
         ]);
 
         if (!Auth::attempt($attributes)) {

@@ -1,15 +1,14 @@
 <div x-data="{ sidebarOpen: false }"
     x-on:toggle.window="sidebarOpen = !sidebarOpen"
     class="flex flex-col w-full translate-all duration-300"
-    x-bind:class="sidebarOpen ? 'ml-[16.6%]' : 'ml-0'"
-    x-bind:style="sidebarOpen ? 'width: calc(100% - 16.6%)' : 'width: 100%'">
+    x-bind:class="sidebarOpen ? 'md:ml-[20%] md:w-[80%]' : 'ml-0'">
      
     <x-page-menu>
         <div>
             <span class="text-2xl text-white font-sans font-semibold">Data Pengemudi</span>
         </div>
 
-        <div class="flex justify-around gap-3.5">
+        <div class="flex flex-col sm:flex-row justify-around gap-3.5">
             <x-button 
                 wire:click="viewAddDriver()"
                 style='white'>

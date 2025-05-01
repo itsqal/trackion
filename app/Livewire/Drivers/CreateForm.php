@@ -17,6 +17,9 @@ class CreateForm extends Component
             'name' => 'required|string|max:255',
             'contact_number' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
+        ], [
+            'name.required' => 'Nama pengemudi tidak boleh kosong.',
+            'email.email' => 'Email tidak valid. Pastiakan menggunakan format email yang benar'
         ]);
 
         \App\Models\Driver::create([

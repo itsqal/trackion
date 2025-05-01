@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Truck;
+use App\Models\Shipment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Jobs\FinishTrackingJob;
+use App\Jobs\StartTrackingJob;
 
 class LocationController extends Controller
 {
@@ -17,39 +20,33 @@ class LocationController extends Controller
 
         $lat = $request->latitude;
         $lng = $request->longitude;
+        $truck = Truck::findOrFail($request->truck_id);
 
-
-        $googleApiKey = config('services.google_maps.key');
-        $response = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
-            'latlng' => "$lat,$lng",
-            'key' => $googleApiKey
-        ]);
-
-        $address = $response['results'][0]['formatted_address'] ?? 'Lokasi tidak diketahui';
-
-        $truck = \App\Models\Truck::findOrFail($request->truck_id);
-
+        // Update status early
         $truck->update([
             'current_status' => 'dalam pengiriman'
         ]);
 
-        \App\Models\Shipment::create([
+        // Create shipment with placeholder address
+        $shipment = Shipment::create([
             'user_id' => $truck->user_id,
             'truck_id' => $truck->id,
             'plate_number' => $truck->plate_number,
             'departure_latitude' => $lat,
             'departure_longitude' => $lng,
-            'departure_location' => $address,
+            'departure_location' => 'Sedang memuat lokasi...',
             'status' => 'perjalanan'
         ]);
 
+        // Dispatch background job to reverse geocode
+        StartTrackingJOb::dispatch($shipment->id, $lat, $lng);
+
         return response([
-            'Message' => 'Success'
-        ], 200)
-        ->header('Content-Type', 'application/json');
+            'Message' => 'Tracking started successfully'
+        ], 200)->header('Content-Type', 'application/json');
     }
 
-    public function finishTracking(Request $request) 
+    public function finishTracking(Request $request)
     {
         $request->validate([
             'latitude' => 'required|numeric',
@@ -57,49 +54,16 @@ class LocationController extends Controller
             'truck_id' => 'required'
         ]);
 
-        $truck = \App\Models\Truck::findOrFail($request->truck_id);
-        $shipment = \App\Models\Shipment::where('truck_id', $truck->id)
-                    ->latest()
-                    ->first();
+        $truck = Truck::findOrFail($request->truck_id);
+        $shipment = Shipment::where('truck_id', $truck->id)
+                            ->latest()
+                            ->firstOrFail();
 
-        $latOrigin = $shipment->departure_latitude;
-        $lngOrigin = $shipment->departure_longitude; 
-        $lat = $request->latitude;
-        $lng = $request->longitude;
-
-        $googleApiKey = config('services.google_maps.key');
-
-        $reverseGeocodeResponse = Http::get('https://maps.googleapis.com/maps/api/geocode/json', [
-            'latlng' => "$lat,$lng",
-            'key' => $googleApiKey
-        ]);
-
-        $address = $reverseGeocodeResponse['results'][0]['formatted_address'] ?? 'Lokasi tidak diketahui';
-
-        $distanceMatrixReponse = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json', [
-            'origins' => "$latOrigin,$lngOrigin",
-            'destinations' => "$lat,$lng",
-            'key' => $googleApiKey
-        ]);
-
-        $distanceValue = $distanceMatrixReponse['rows'][0]['elements'][0]['distance']['value'] ?? 0;
-        $distance = round($distanceValue / 1000, 2);
-
-        $truck->update([
-            'current_status' => 'tidak dalam pengiriman',
-            'total_distance' => $truck->total_distance + $distance
-        ]);
-
-        $shipment->update([
-            'final_location' => $address,
-            'distance_traveled' => $distance,
-            'completed_at' => now(),
-            'status' => 'selesai'
-        ]);
+        // Dispatch async job to calculate distance and complete shipment
+        FinishTrackingJob::dispatch($shipment->id, $request->latitude, $request->longitude);
 
         return response([
-            'Message' => 'Success',
-        ], 200)
-        ->header('Content-Type', 'application/json');
+            'Message' => 'Tracking completed. Processing in background.'
+        ], 200)->header('Content-Type', 'application/json');
     }
 }

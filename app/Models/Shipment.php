@@ -40,11 +40,6 @@ class Shipment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function reports()
-    {
-        return $this->hasMany(Report::class);
-    }
-
     public function scopeSearch($query, $value)
     {
         return $query->where('load_type', 'ilike', "%{$value}%")
