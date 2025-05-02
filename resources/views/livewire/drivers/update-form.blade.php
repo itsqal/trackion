@@ -1,8 +1,6 @@
 <form wire:submit="updateDriver">
     <x-modal-form-field wire:model="name" label="Nama Pengemudi" name="name" value="{{ $driver->name }}" />
 
-    <x-modal-form-field wire:model="email" label="Email" name="email" value="{{ $driver->email }}"/>
-
     <x-modal-form-field wire:model="contact_number" label="Nomor Kontak" name="contact_number" value="{{ $driver->contact_number }}" />
 
     @if ($errors->any())

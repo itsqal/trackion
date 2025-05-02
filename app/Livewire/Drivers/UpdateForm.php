@@ -15,7 +15,6 @@ class UpdateForm extends Component
     {
         $this->driver = $driver;
         $this->name = $driver->name;
-        $this->email = $driver->email;
         $this->contact_number = $driver->contact_number;
     }
 
@@ -23,15 +22,11 @@ class UpdateForm extends Component
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'email' => 'email|max:255|nullable',
             'contact_number' => 'string|max:15|nullable',
-        ], [
-            'email.email' => 'Email tidak valid. Pastiakan menggunakan format email yang benar.',
         ]);
 
         $this->driver->update([
             'name' => $this->name,
-            'email' => $this->email,
             'contact_number' => $this->contact_number,
         ]);
 

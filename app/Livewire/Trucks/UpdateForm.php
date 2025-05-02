@@ -4,6 +4,7 @@ namespace App\Livewire\Trucks;
 
 use App\Models\Driver;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Auth;
 
 class UpdateForm extends Component
@@ -15,6 +16,19 @@ class UpdateForm extends Component
     public $selectedDrivers = [];
     public $drivers = [];
 
+    #[On('open-modal')]
+    public function resetFields()
+    {        
+        $this->truck->refresh();
+        $this->selectedDrivers = $this->truck->drivers->map(function($driver) {
+            return [
+                'id' => $driver->id,
+                'name' => $driver->name,
+                'contact_number' => $driver->contact_number
+            ];
+        })->toArray();
+    }
+
     public function mount($truck)
     {
         $this->truck = $truck;
@@ -24,7 +38,7 @@ class UpdateForm extends Component
             return [
                 'id' => $driver->id,
                 'name' => $driver->name,
-                'email' => $driver->email
+                'contact_number' => $driver->contact_number
             ];
         })->toArray();
     }

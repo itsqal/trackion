@@ -8,13 +8,6 @@
         />
 
         <x-modal-form-field
-        label="Email Pengemudi"
-        name="email"
-        placeholder="Masukan email pengemudi (optional)"
-        wire:model="email"
-        />
-
-        <x-modal-form-field
         label="Nomor Kontak Pengemudi"
         name="contact_number"
         placeholder="Masukan nomor kontak pengemudi (optional)"
