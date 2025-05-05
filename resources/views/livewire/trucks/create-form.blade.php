@@ -1,9 +1,10 @@
 <form wire:submit="createTruck">
     <div class="flex flex-col bg-[#FFFFFF]">
         <x-modal-form-field
+            id="plate_number"
             label="Nomor Plat"
             name="plate_number"
-            placeholder="Masukan nomor plat"
+            placeholder="XX 1234 XYZ"
             wire:model="plate_number"
         />
 

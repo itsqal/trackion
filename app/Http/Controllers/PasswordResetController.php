@@ -35,7 +35,7 @@ class PasswordResetController extends Controller
         $email = request('email');
         SendResetPasswordEmailJob::dispatch($email);
 
-        return back()->with(['status' => 'Kami telah mengirimkan tautan reset password ke email Anda jika email tersebut terdaftar.']);
+        return back()->with(['status' => 'Jika email terdaftar, tautan reset telah dikirim. Masukkan ulang email jika belum menerima pesan.']);
     }
 
     public function resetUserPassword()
