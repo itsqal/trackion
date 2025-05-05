@@ -35,6 +35,7 @@ class ReportsExport implements FromCollection, WithMapping, WithHeadings
                 ->when($this->endDate, function ($query) {
                     return $query->whereDate('created_at', '<=', $this->endDate);
                 })
+                ->orderBy('created_at', 'DESC')
                 ->get();
     }
 
