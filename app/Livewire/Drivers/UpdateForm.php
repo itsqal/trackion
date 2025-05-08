@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Drivers;
 
+use Livewire\Attributes\On; 
 use Livewire\Component;
 
 class UpdateForm extends Component
 {
     public $driver;
     public $name;
-    public $email;
     public $contact_number;
 
     public function mount($driver)
@@ -18,11 +18,22 @@ class UpdateForm extends Component
         $this->contact_number = $driver->contact_number;
     }
 
+    #[On('open-modal')] 
+    public function resetModal()
+    {
+        $this->resetErrorBag();
+        $this->name = $this->driver->name;
+        $this->contact_number = $this->driver->contact_number;
+    }
+
     public function updateDriver()
     {
         $this->validate([
             'name' => 'required|string|max:255',
-            'contact_number' => 'string|max:15|nullable',
+            'contact_number' => 'numeric|nullable',
+        ], [
+            'name.required' => 'Nama pengemudi tidak boleh kosong.',
+            'contact_number.numeric' => 'Nomor kontak tidak valid.'
         ]);
 
         $this->driver->update([

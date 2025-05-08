@@ -7,7 +7,7 @@
 @endphp
 
 <li class="list-none">
-    <a wire:navigate {{ $attributes->merge(['class' => $classes]) }}>
+    <a {{ $attributes->merge(['class' => $classes]) }}>
         {{ $slot }}
     </a
 </li>

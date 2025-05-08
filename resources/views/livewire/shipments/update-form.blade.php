@@ -98,6 +98,6 @@
     </div>
 
     <div class="mt-2 flex justify-end">
-        <input type="submit" class="text-xs bg-[var(--color-primary)] text-white font-regular py-2 px-4 rounded-lg" value="Simpan">
+        <input type="submit" class="text-xs bg-[var(--color-primary)] text-white font-regular py-2 px-4 rounded-lg cursor-pointer" value="Simpan">
     </div>
 </form>

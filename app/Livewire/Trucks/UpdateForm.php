@@ -16,10 +16,16 @@ class UpdateForm extends Component
     public $selectedDrivers = [];
     public $drivers = [];
 
-    #[On('open-modal')]
-    public function resetFields()
-    {        
-        $this->truck->refresh();
+    #[On('open-modal')] 
+    public function resetModal()
+    {
+        $this->reset([
+            'search',
+            'drivers'
+        ]);
+
+        $this->plate_number = $this->truck->plate_number;
+        $this->model = $this->truck->model;
         $this->selectedDrivers = $this->truck->drivers->map(function($driver) {
             return [
                 'id' => $driver->id,
@@ -27,6 +33,8 @@ class UpdateForm extends Component
                 'contact_number' => $driver->contact_number
             ];
         })->toArray();
+
+        $this->resetErrorBag();
     }
 
     public function mount($truck)
@@ -72,15 +80,16 @@ class UpdateForm extends Component
     public function updateTruck()
     {
         $this->validate([
-            'plate_number' => 'required',
+            'plate_number' => ['required', 'regex:/^[a-zA-Z]{1,2} \d{4} [a-zA-Z]{1,3}$/'],
             'model' => 'required',
         ], [
             'plate_number.required' => 'Nomor plat tidak boleh kosong. Mohon isi nomor plat kendaraan.',
+            'plate_number.regex' => 'Gunakan format nomor plat yang sesuai (XX 1234 XYZ)',
             'model.required' => 'Model tidak boleh kosong. Mohon isi data model kendaraan.',
         ]);
 
         $this->truck->update([
-            'plate_number' => $this->plate_number,
+            'plate_number' => strtoupper($this->plate_number),
             'model' => $this->model,
         ]);
 

@@ -121,7 +121,7 @@
 
     <x-modal title="Detail Pengemudi" name="view-edit-driver">
         @if ($selectedDriver)
-            <livewire:drivers.update-form :driver="$selectedDriver" :key="$selectedDriver->id"/>
+        <livewire:drivers.update-form :driver="$selectedDriver" :key="$selectedDriver->id" />
         @endif
     </x-modal>
 
@@ -142,13 +142,13 @@
 
         <div class="flex justify-end mt-4 gap-1">
             <button @click="$dispatch('close-modal')"
-                class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white">
+                class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white">
                 Kembali
-                <button>
-                    <button wire:click="deleteDriver"
-                        class="bg-[#C30010] text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer">
-                        Hapus
-                    </button>
+            <button>
+            <button wire:click="deleteDriver"
+                class="bg-[#C30010] text-xs text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer">
+                Hapus
+            </button>
         </div>
         @endif
     </x-modal>

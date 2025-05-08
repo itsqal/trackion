@@ -27,5 +27,4 @@
      <x-modal title="Tambah Pengemudi" name="view-add-driver">
         <livewire:drivers.create-form />
     </x-modal>
-
  </div>
