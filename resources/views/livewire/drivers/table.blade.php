@@ -28,7 +28,6 @@
                                 <th scope="col" class="px-4 py-3">No</th>
                                 <th scope="col" class="px-4 py-3">Nama</th>
                                 <th scope="col" class="px-4 py-3">Nomor Kontak</th>
-                                <th scope="col" class="px-4 py-3">Email</th>
                                 <th scope="col" class="px-4 py-3">Aksi</th>
                             </tr>
                         </thead>
@@ -38,7 +37,6 @@
                                 <td class="px-4 py-3 font-medium text-gray-800">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3">{{ $driver->name }}</td>
                                 <td class="px-4 py-3">{{ $driver->contact_number }}</td>
-                                <td class="px-4 py-3">{{ $driver->email }}</td>
                                 <td class="px-4 py-3 flex justify-center gap-2">
                                     <button wire:click="viewDriver('{{ $driver->id }}')"
                                         class="text-white bg-[#FFB700] rounded-lg p-2 hover:opacity-90 transition cursor-pointer">
@@ -93,10 +91,6 @@
                                 <span class="text-gray-500">Nomor Kontak:</span>
                                 <span class="font-medium">{{ $driver->contact_number }}</span>
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-500">Email:</span>
-                                <span class="font-medium">{{ $driver->email }}</span>
-                            </div>
                         </div>
                     </div>
                     @endforeach
@@ -127,7 +121,7 @@
 
     <x-modal title="Detail Pengemudi" name="view-edit-driver">
         @if ($selectedDriver)
-            <livewire:drivers.update-form :driver="$selectedDriver" :key="$selectedDriver->id"/>
+        <livewire:drivers.update-form :driver="$selectedDriver" :key="$selectedDriver->id" />
         @endif
     </x-modal>
 
@@ -144,20 +138,17 @@
 
             <p class="text-sm font-medium text-gray-800">Kontak</p>
             <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedDriver->contact_number }}</p>
-
-            <p class="text-sm font-medium text-gray-800">Email</p>
-            <p class="text-sm font-medium text-gray-800">:&nbsp;&nbsp;&nbsp;{{ $selectedDriver->email }}</p>
         </div>
 
         <div class="flex justify-end mt-4 gap-1">
             <button @click="$dispatch('close-modal')"
-                class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white">
+                class="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-sans font-medium transition cursor-pointer bg-[var(--color-primary)] text-white">
                 Kembali
-                <button>
-                    <button wire:click="deleteDriver"
-                        class="bg-[#C30010] text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer">
-                        Hapus
-                    </button>
+            <button>
+            <button wire:click="deleteDriver"
+                class="bg-[#C30010] text-xs text-white px-4 py-2 rounded-lg hover:opacity-90 transition cursor-pointer">
+                Hapus
+            </button>
         </div>
         @endif
     </x-modal>

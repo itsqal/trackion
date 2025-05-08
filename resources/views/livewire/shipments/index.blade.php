@@ -8,8 +8,19 @@
         <span class="text-2xl text-white font-sans font-semibold">Data Pengiriman</span>
     </div>
 
-    <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+    <div class="flex flex-col sm:flex-row justify-around gap-3.5">
+        <x-button wire:click='finishManualShipment' style='white'>Selesaikan Pengiriman</x-button>
+        <x-button wire:click='exportExcel' style='green'>Cetak .xlsx</x-button>
+    </div>
+
     </x-page-menu>
     
     <livewire:shipments.table lazy />
+
+    <x-modal title="Selesaikan Pengiriman" name="finish-manual-shipment">
+        <x-slot:icon>
+            <x-icons.round-warning class="size-5 text-red-600" />
+        </x-slot:icon>
+        <livewire:shipments.finish-manual-shipment />
+    </x-modal>
  </div>

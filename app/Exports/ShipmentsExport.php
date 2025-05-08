@@ -35,6 +35,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
                 ->when($this->endDate, function ($query) {
                     return $query->whereDate('created_at', '<=', $this->endDate);
                 })
+                ->orderBy('created_at', 'DESC')
                 ->get();
     }
 
@@ -42,6 +43,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
     {
         return [
             $shipment->plate_number,
+            $shipment->formatted_date,
             $shipment->delivery_order_price,
             $shipment->client,
             $shipment->load_type,
@@ -57,7 +59,7 @@ class ShipmentsExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Nomor Plat', 'Harga Pengiriman', 'Klien', 'Muatan', 'Nomor Surat Jalan (Pergi)', 'Nomor Surat Jalan (Pulang)', 
+            'Nomor Plat', 'Tanggal Pengiriman', 'Harga Pengiriman', 'Klien', 'Muatan', 'Nomor Surat Jalan (Pergi)', 'Nomor Surat Jalan (Pulang)', 
             'Lokasi Keberangkatan', 'Lokasi Tujuan', 'Jarak Tempuh', 'Status'
         ];
     }

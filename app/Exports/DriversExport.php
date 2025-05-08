@@ -33,14 +33,13 @@ class DriversExport implements FromCollection, WithMapping, WithHeadings
         return [
             $driver->name,
             $driver->contact_number,
-            $driver->email
         ];
     }
 
     public function headings(): array
     {
         return [
-            'Nama', 'Nomor Kontak', 'Email'
+            'Nama', 'Nomor Kontak'
         ];
     }
 }

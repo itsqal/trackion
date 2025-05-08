@@ -50,7 +50,6 @@ class Table extends Component
 
         $this->reset('selectedDriver');
         
-
         $this->dispatch('driverUpdated');
         $this->dispatch('close-modal');
     }

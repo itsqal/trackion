@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Models\Shipment;
+use App\Models\Truck;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class FinishManualShipmentJob implements ShouldQueue
+{
+    use InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $shipmentId, $lat, $lng;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct($shipmentId, $lat, $lng)
+    {
+        $this->shipmentId = $shipmentId;
+        $this->lat = $lat;
+        $this->lng = $lng;
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {
+        $shipment = Shipment::find($this->shipmentId);
+        if (!$shipment) return;
+
+        $truck = Truck::find($shipment->truck_id);
+        if (!$truck) return;
+
+        $googleApiKey = config('services.google_maps.key');
+
+        $distanceMatrixResponse = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json', [
+            'origins' => "{$shipment->departure_latitude},{$shipment->departure_longitude}",
+            'destinations' => "{$this->lat},{$this->lng}",
+            'key' => $googleApiKey
+        ]);
+
+        $distanceValue = $distanceMatrixResponse['rows'][0]['elements'][0]['distance']['value'] ?? 0;
+        $distanceKm = round($distanceValue / 1000, 2);
+
+        $truck->update([
+            'current_status' => 'tidak dalam pengiriman',
+            'total_distance' => $truck->total_distance + $distanceKm
+        ]);
+
+        $shipment->update([
+            'distance_traveled' => $distanceKm,
+        ]);
+    }
+}

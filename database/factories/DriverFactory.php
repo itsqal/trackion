@@ -21,7 +21,6 @@ class DriverFactory extends Factory
             'user_id' => User::factory(),
             'name' => fake()->name(),
             'contact_number' => fake()->phoneNumber(),
-            'email' => fake()->email()
         ];
     }
 }

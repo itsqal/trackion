@@ -14,6 +14,11 @@ class Index extends Component
         return $this->dispatch('exportShipment')->to(Table::class);
     }
 
+    public function finishManualShipment()
+    {
+        $this->dispatch('open-modal', name: 'finish-manual-shipment');
+    }
+
     public function render()
     {
         return view('livewire.shipments.index');

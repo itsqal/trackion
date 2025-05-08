@@ -30,7 +30,6 @@ class Driver extends Model
     public function scopeSearch($query, $value)
     {
         return $query->where('name', 'ilike', "%{$value}%")
-            ->orWhere('contact_number', 'ilike', "%{$value}%")
-            ->orWhere('email', 'ilike', "%  {$value}%");
+            ->orWhere('contact_number', 'ilike', "%{$value}%");
     }
 }
